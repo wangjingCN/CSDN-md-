@@ -47,8 +47,10 @@ _**说明python对已知长度的数据，可以做很好的自动分解,针对d
 ####python3.x的写法
 
 对不知道长度的数据做了动态分解
+
 	a,*b ,c='wangjing'
 	print a ,b ,c
+	
 显示的结果为：
 >w angjin g 
 
