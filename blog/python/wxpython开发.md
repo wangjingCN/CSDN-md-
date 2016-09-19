@@ -23,12 +23,27 @@
 
 ##**第六步：BOA中开发的wxPython程序 用py2exe进行打包**
 
-	from distutils.core import setup  
-	import py2exe  
-	setup(windows=[{"script":"App1.py","icon_resources":[(1,"A0052345.ico")]}])
+	from distutils.core import setup
+	import py2exe
+	includes = ["encodings", "encodings.*"]
+	options = {"py2exe":
+	             {   "compressed": 1,
+	                 "optimize": 2,
+	                 "includes": includes,
+	                 "bundle_files": 1
+	             }
+	           }
+	setup(
+	     version = "0.1.0",
+	     description = "windows program",
+	     name = "winsetup",
+	     options = options,
+	     zipfile=None,
+	     windows=[{"script": "myscript.py", "icon_resources": [(1, "PyCrust.ico")] }],
+	  )
 
 最后：运行windows命令行，运行如下代码：
 	
-	python convert2exe.py py2exe
+	python setup.py py2exe
 
 会产生build和dist文件夹。build里是一些py2exe运行时产生的中间文件，可以删除；只需将dist文件夹拷走就行，运行文件是app.exe，可以改名。
