@@ -4,7 +4,6 @@
 	
 >安装地址：<http://www.python.org/download/>
 
-
 ##**第二步：安装pycharm(python IDE开发工具)**
 	
 >安装地址：<http://www.jetbrains.com/pycharm/download/#section=windows>
@@ -15,11 +14,11 @@
 
 ##**第四步：安装boa-constructor 0.6.1**
 	
->安装地址：<待写>
+>安装地址：<http://boa-constructor.sourceforge.net/>
 
 ##**第五步：安装py2exe**
 	
->安装地址：<待写>
+>安装地址：<http://www.py2exe.org/>
 
 ##**第六步：BOA中开发的wxPython程序 用py2exe进行打包**
 
