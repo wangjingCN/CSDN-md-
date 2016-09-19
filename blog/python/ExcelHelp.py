@@ -20,17 +20,17 @@ def edit_file(filename, base_id=[]):
     rb = open_workbook(filename)
     wb = copy(rb)
     ws = wb.get_sheet(0)
-    # table = rb.get_sheet()[0] #这个方法好像过时了
+    # table = rb.get_sheet()[0] #这个方法好像过时了，这里会报错
     table = rb.sheets()[0]
     for row_number in range(table.nrows):
         if row_number:
             if table.row_values(row_number)[0] in base_id:
                 print xldate.xldate_as_datetime(table.row_values(row_number)[1], 0)
                 ws.write(row_number, 0, table.row_values(row_number)[0], style0)  # 这个地方需要改一个颜色
-            ws.write(row_number, 1, xldate.xldate_as_datetime(table.row_values(row_number)[1], 0),
-                     style1)  # 这个地方需要改一个颜色
+            ws.write(row_number, 1, xldate.xldate_as_datetime(table.row_values(row_number)[1], 0),style1)  # 这个地方需要改一个颜色
 
     wb.save(filename)
+    # wb.save('b' + filename)# 可以把文件保存为另外的名字，原文件不会改变
     print 'ok'
 
 
