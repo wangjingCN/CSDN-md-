@@ -15,7 +15,7 @@
 
 ##**第四步：安装boa-constructor 0.6.1**
 	
->安装地址：<boa-constructor 0.6.1>
+>安装地址：<待写>
 
 ##**第五步：安装py2exe**
 	
