@@ -8,7 +8,7 @@ import xlwt
 def edit_file(filename, base_id=[]):
     font0 = xlwt.Font()
     font0.name = 'Times New Roman'
-    font0.colour_index = 2
+    font0.colour_index = 2 #红色
     font0.bold = True
 
     style0 = xlwt.XFStyle()
@@ -17,6 +17,7 @@ def edit_file(filename, base_id=[]):
     rb = open_workbook(filename)
     wb = copy(rb)
     ws = wb.get_sheet(0)
+    # table = rb.get_sheet()[0] #这个方法好像过时了
     table = rb.sheets()[0]
     for row_number in range(table.nrows):
         if row_number:
