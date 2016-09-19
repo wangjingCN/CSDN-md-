@@ -317,3 +317,9 @@ cond(no)->op
 [4]: http://bramp.github.io/js-sequence-diagrams/
 [5]: http://adrai.github.io/flowchart.js/
 [6]: https://github.com/benweet/stackedit
+
+	dog | bird | cat
+	----|------|----
+	foo | foo  | foo
+	bar | bar  | bar
+	baz | baz  | baz
