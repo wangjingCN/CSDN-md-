@@ -46,4 +46,9 @@
 	
 	python setup.py py2exe
 
+可能会报错：
+
+	error: MSVCP90.dll: No such file or directory
+	是因为没有找到MSVCP90.dll，在windows目录下搜索MSVCP90.dll这个文件，然后拷到python安装目录的DLLs下就可以了。
+
 会产生build和dist文件夹。build里是一些py2exe运行时产生的中间文件，可以删除；只需将dist文件夹拷走就行，运行文件是app.exe，可以改名。
