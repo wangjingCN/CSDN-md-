@@ -25,7 +25,7 @@
 
 	from distutils.core import setup  
 	import py2exe  
-	setup(windows=[{"script": "app.py"}])
+	setup(windows=[{"script":"App1.py","icon_resources":[(1,"A0052345.ico")]}])
 
 最后：运行windows命令行，运行如下代码：
 	
