@@ -21,7 +21,7 @@
 	
 >安装地址：<boa-constructor 0.6.1>
 
-##**第六步：wxPython开发的程序 用py2exe进行打包**
+##**第六步：BOA中开发的wxPython程序 用py2exe进行打包**
 
 	from distutils.core import setup  
 	import py2exe  
