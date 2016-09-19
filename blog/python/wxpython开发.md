@@ -51,4 +51,4 @@
 会产生build和dist文件夹。build里是一些py2exe运行时产生的中间文件，可以删除；只需将dist文件夹拷走就行，运行文件是app.exe，可以改名
 
 	附：众所周知的墙，很多地址在公司是不能直接访问的。可以去的csdn 博客下载
-	资源地址：<http://download.csdn.net/detail/u010445540/9633619>
+资源地址： <http://download.csdn.net/detail/u010445540/9633619>
