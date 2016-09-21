@@ -40,7 +40,6 @@
 	from xlutils.copy import copy
 	import xlwt
 	
-	
 	def edit_excel(filename, base_id=[]):
 	    font0 = xlwt.Font()
 	    font0.name = 'Times New Roman'
@@ -54,20 +53,22 @@
 	    style1.num_format_str = 'YYYY/MM/DD'  # 对日期格式的处理
 	
 	    rb = open_workbook(filename)
-	    rb_cols_len = rb.sheet_by_index(0).ncols  # 原表的列数
+	    # rb_cols_len = rb.sheet_by_index(0).ncols  # 原表的列数
 	    wb = copy(rb)
 	    ws = wb.get_sheet(0)
 	    table = rb.sheets()[0]
 	    for row_number in range(table.nrows):
 	        if row_number == 0:
 	            ws.write(0, 5, u"是否包含", style0)  # 新增一列
+	
 	        else:
 	            if table.row_values(row_number)[0] in base_id:
-	                print xldate.xldate_as_datetime(table.row_values(row_number)[1], 0)
 	                ws.write(row_number, 0, table.row_values(row_number)[0], style0)  # 这个地方需要改一个颜色
+	                ws.write(row_number, 5,u'是', style0)  # 给新增的列添加内容
+	            else:
+	                ws.write(row_number, 5,u'否')  # 给新增的列添加内容
 	            ws.write(row_number, 1, xldate.xldate_as_datetime(table.row_values(row_number)[1], 0), style1)  # 这个地方需要写成日期格式
-	            # ws.write(row_number, 5, u"程序计算:原表格共有" + str(rb_cols_len) + u'行', style0)  # 给新增的列添加内容
-	            ws.write(row_number, 5,u'是', style0)  # 给新增的列添加内容
+	
 	
 	    # wb.save(filename)#覆盖原文件
 	    wb.save('new_' + filename)  # 可以把文件保存为另外的名字，原文件不会改变
@@ -86,6 +87,7 @@
 	
 	# print get_base_ids(u'固定部分.xlsx')
 	print edit_excel(u'混合数据.xlsx', get_excel_base_ids(u'固定部分.xlsx'))
+
 
 ##datetime的解决办法
 混合数据的表中有个日期:2016/9/18
