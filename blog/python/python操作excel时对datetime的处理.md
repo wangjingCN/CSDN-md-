@@ -51,7 +51,8 @@
 	
 	    style1 = xlwt.XFStyle()
 	    style1.num_format_str = 'YYYY/MM/DD'  # 对日期格式的处理
-	
+		# style1.num_format_str = u'MM月DD日'  # 对日期格式的处理	
+
 	    rb = open_workbook(filename)
 	    # rb_cols_len = rb.sheet_by_index(0).ncols  # 原表的列数
 	    wb = copy(rb)
