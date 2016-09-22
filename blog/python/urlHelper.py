@@ -6,11 +6,15 @@ import urllib
 import os
 
 
-def get_url_content(url, retry_times=2, user_agent='wswp'):
+def get_url_content(url, retry_times=2):
     print 'Downloading: ', url
     try:
-        headers = {'User-Agent': user_agent}
-        req = Request(url, headers=headers)
+        send_headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 6.2; rv:16.0) Gecko/20100101 Firefox/16.0',
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+            'Connection': 'keep-alive'
+        }
+        req = Request(url, headers=send_headers)
         html_content = urlopen(req).read().decode('gbk', 'ignore').encode('utf-8')  # 此处对中文字符进行了转码
     except URLError, e:
         print e.reason
@@ -45,8 +49,7 @@ def mkdir(mkdir_path):
 # print get_url_content("http://httpstat.us/500")
 if __name__ == "__main__":
     save_path = mkdir("C:\\meizi\\")
-    # for index in range(1, 755):  # 按照ID来爬整个网站
-    for index in range(1, 4):  # 按照ID来爬整个网站
+    for index in range(1, 755):  # 按照ID来爬整个网站
         src = "http://www.qiubaichengren.com/%s.html" % (index)
         url_content = get_url_content(src)
         if url_content:
