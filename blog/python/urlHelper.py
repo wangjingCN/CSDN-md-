@@ -10,8 +10,9 @@ def get_url_content(url, retry_times=2):
     print 'Downloading: ', url
     try:
         send_headers = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 6.2; rv:16.0) Gecko/20100101 Firefox/16.0',
-            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+            # "Host": "www.qiubaichengren.com",
+            'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.89 Safari/537.36',
+            'Accept':'text/html, */*; q=0.01',
             'Connection': 'keep-alive'
         }
         req = Request(url, headers=send_headers)
@@ -32,11 +33,16 @@ def get_pic_url(html_content):
     return patten.findall(html_content)
 
 
-def save_pic_urllib(save_path, pic_url):
-    save_pic_name = save_path + pic_url.split('/')[len(pic_url.split('/')) - 1]
-    if not os.path.exists(save_pic_name):
-        print save_pic_name
-        urllib.urlretrieve(pic_url, save_pic_name)
+def save_pic_urllib(save_path, pic_url, retry_times=3):
+    print pic_url
+    pic_name = pic_url.split('/')[len(pic_url.split('/')) - 1]
+    if pic_name != '0068djjqjw1f467h575l3j308c05z75o.jpg':
+        save_pic_name = save_path + pic_name
+        try:
+            urllib.urlretrieve(pic_url, save_pic_name)
+        except urllib.ContentTooShortError:
+            print '下载出现了错误,现在对', save_pic_name, "重新下载"
+            save_pic_urllib(save_path, pic_url, retry_times - 1)
 
 
 def mkdir(mkdir_path):
@@ -46,16 +52,21 @@ def mkdir(mkdir_path):
     return path
 
 
+# 0068djjqjw1f467h575l3j308c05z75o.jpg，这张照片需要过滤
+
 # print get_url_content("http://httpstat.us/500")
 if __name__ == "__main__":
     save_path = mkdir("C:\\meizi\\")
-    for index in range(1, 755):  # 按照ID来爬整个网站
+    # for index in range(1, 755):  # 按照ID来爬整个网站
+    for index in range(32, 35):  # 按照ID来爬整个网站
         src = "http://www.qiubaichengren.com/%s.html" % (index)
         url_content = get_url_content(src)
         if url_content:
             son_save_path = mkdir(save_path + str(index) + "\\")
-            pic_list = get_pic_url(url_content)
-            for i in range(len(pic_list)):
-                pic_url = pic_list[i][0]
+            pic_url_list = get_pic_url(url_content)
+            for i in range(len(pic_url_list)):
+                pic_url = pic_url_list[i][0]
                 save_pic_urllib(son_save_path, pic_url)
             print '第' + str(index) + '页，爬取完毕。撸叼屎,拿去撸吧！'
+
+    print '爬虫执行完毕'
