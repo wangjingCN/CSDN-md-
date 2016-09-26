@@ -34,12 +34,15 @@ def get_pic_url(html_content):
 
 
 def save_pic_urllib(save_path, pic_url, retry_times=3):
+    opener = urllib.FancyURLopener({})
+    opener.verion = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.89 Safari/537.36'
     print pic_url
     pic_name = pic_url.split('/')[len(pic_url.split('/')) - 1]
     if pic_name != '0068djjqjw1f467h575l3j308c05z75o.jpg':
         save_pic_name = save_path + pic_name
         try:
-            urllib.urlretrieve(pic_url, save_pic_name)
+            opener.retrieve(pic_url, save_pic_name)
+            # urllib.urlretrieve(pic_url, save_pic_name)
         except urllib.ContentTooShortError:
             print '下载出现了错误,现在对', save_pic_name, "重新下载"
             save_pic_urllib(save_path, pic_url, retry_times - 1)
@@ -58,7 +61,7 @@ def mkdir(mkdir_path):
 if __name__ == "__main__":
     save_path = mkdir("C:\\meizi\\")
     # for index in range(1, 755):  # 按照ID来爬整个网站
-    for index in range(32, 35):  # 按照ID来爬整个网站
+    for index in range(52, 58):  # 按照ID来爬整个网站
         src = "http://www.qiubaichengren.com/%s.html" % (index)
         url_content = get_url_content(src)
         if url_content:
