@@ -51,3 +51,4 @@ python2中接受unicode和str,并总是返回str：
 >
 	with open（"/temp/file.bin",'wb'）as f :
 		f.write(os.urandom(10))
+ps:effective python
