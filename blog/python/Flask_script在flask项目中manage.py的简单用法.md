@@ -1,69 +1,111 @@
-#将python2.7 添加进64位系统 的注册表
+#Flask_script在flask项目中manage.py的简单用法
 
-运行一下py文件:
+##flask框架中manage.py的常用设计
 
-	import sys
+	#!/usr/bin/env python
+	import os
+	from app import create_app, db
+	from app.models import DBNSZone, DBNSDevice, DBNSLink, DBNSNSIPAssign, DBSYSDevice, DBSYSMenu, DBSYSUser, \
+	    DBSYSUserMapMenu
+	from flask.ext.script import Manager, Shell
+	from flask.ext.migrate import Migrate, MigrateCommand
+	
+	app = create_app(os.getenv('FLASK_CONFIG') or 'default')
+	manager = Manager(app)
+	migrate = Migrate(app, db)
 	
 	
-	from _winreg import *
-	
-	# tweak as necessary
-	version = sys.version[:3]
-	installpath = sys.prefix
-	regpath = "SOFTWARE\\Python\\Pythoncore\\%s\\" % (version)
-	installkey = "InstallPath"
-	pythonkey = "PythonPath"
-	pythonpath = "%s;%s\\Lib\\;%s\\DLLs\\" % (
-	installpath, installpath, installpath
-	)
-	
-	def RegisterPy():
-	    print "begin RegisterPy "
-	    try:
-	        print "open key : %s"%regpath
-	        reg = OpenKey(HKEY_CURRENT_USER, regpath)
-	    except EnvironmentError as e:
-	        try:
-	            reg = CreateKey(HKEY_CURRENT_USER, regpath)
-	            SetValue(reg, installkey, REG_SZ, installpath)
-	            SetValue(reg, pythonkey, REG_SZ, pythonpath)
-	            CloseKey(reg)
-	        except:
-	            print "*** EXCEPT: Unable to register!"
-	            return
-	
-	        print "--- Python", version, "is now registered!"
-	        return
+	def make_shell_context():
+	    return dict(app=app, db=db, DBNSZone=DBNSZone,
+	                DBNSDevice=DBNSDevice, DBNSLink=DBNSLink, DBNSNSIPAssign=DBNSNSIPAssign, DBSYSDevice=DBSYSDevice,DBSYSUserMapMenu=DBSYSUserMapMenu
+	                )
 	
 	
-	    if (QueryValue(reg, installkey) == installpath and
-	        QueryValue(reg, pythonkey) == pythonpath):
-	            CloseKey(reg)
-	            print "=== Python", version, "is already registered!"
-	            return CloseKey(reg)
+	manager.add_command("shell", Shell(make_context=make_shell_context))
+	manager.add_command('db', MigrateCommand)
 	
-	    print "*** ERROR:Unable to register!"
-	    print "*** REASON:You probably have another Python installation!"
 	
-	def UnRegisterPy():
-	    #print "begin UnRegisterPy "
-	    try:
-	        print "open HKEY_CURRENT_USER key=%s"%(regpath)
-	        reg = OpenKey(HKEY_CURRENT_USER, regpath)
-	        #reg = OpenKey(HKEY_LOCAL_MACHINE, regpath)
-	    except EnvironmentError:
-	        print "*** Python not registered?!"
-	        return
-	    try:
-	       DeleteKey(reg, installkey)
-	       DeleteKey(reg, pythonkey)
-	       DeleteKey(HKEY_LOCAL_MACHINE, regpath)
-	    except:
-	       print "*** Unable to un-register!"
-	    else:
-	       print "--- Python", version, "is no longer registered!"
+	@manager.command
+	def test():
+	    """Run the unit tests."""
+	    import unittest
+	    tests = unittest.TestLoader().discover('tests')
+	    unittest.TextTestRunner(verbosity=2).run(tests)
 	
-	if __name__ == "__main__":
-	    RegisterPy()
+	
+	@manager.option('-d', '-drop_first', dest='drop_first', default=False)
+	def createdb(drop_first):
+	    """Creates the database."""
+	    if drop_first:
+	        print 1
+	        db.drop_all()
+	    db.create_all()
+	
+	@manager.command
+	def yes(name="Fred"):
+	    print "hello", name
+	
+	
+	if __name__ == '__main__':
+	    manager.run()
 
-    
+项目主要是用了Flask_srcipt 的Manager类来进行命令行的管理.
+
+##启动项目
+
+**默认启动项目的方法**
+>\>python manage.py runserver
+
+	项目会以：Running on http://127.0.0.1:5000/ 的方式启动
+
+
+**指定端口启动**
+>\>python manage.py runserver -h 127.0.0.1 -p 204
+
+	项目会以：Running on http://127.0.0.1:204/ 的方式启动,其实也是可以指定IP的，只是本质也是127.0.0.1
+
+##通过Flask_script来初始化数据库
+>\>python manage.py shell
+>
+>\>>>db.create_all()
+
+同时也可以通过shell方法来调用数据库实例:
+
+>\>python manage.py shell
+>
+>\>>>a=DBNSLink(id=1,name='jing')
+>
+>\>>>a.save()
+
+##启动测试文件
+>\>python manage.py test
+>
+	@manager.command
+	def test():
+	    """Run the unit tests."""
+	    import unittest
+	    tests = unittest.TestLoader().discover('tests')
+	    unittest.TextTestRunner(verbosity=2).run(tests)
+主要是通过@manager.command装饰器来定义了一个test方法
+
+##Flask_script通过传参来控制Flask项目:
+
+>\>python manage.py createdb -d True
+>
+	@manager.option('-d', '-drop_first', dest='drop_first', default=False)
+	def createdb(drop_first):
+	    """Creates the database."""
+	    if drop_first:
+	        print 1
+	        db.drop_all()
+	    db.create_all()
+
+manage.py的yes方法也可以采用同样的传值方式：
+>\>python manage.py yes -n jing
+
+	注意：**-n 是由参数的第一个字母决定的。所以"name" > "-n"**
+
+Flask_script插件的具体用法，下面的网址讲的很详细
+
+Flask_script文档中文翻译：
+[https://my.oschina.net/lijsf/blog/158828](https://my.oschina.net/lijsf/blog/158828 "Flask_script文档中文翻译")
