@@ -72,3 +72,12 @@ basicConfig的参数解释：
 	logger.addHandler(logger_fh)
 	
 	logger.info('实现了日志的自动分类')
+
+最后自动生成的日志为以下结构：
+	<li>Flask_web_log</li>
+	<ul> 2016-11
+	<ul>Flask_web_log2016-11-01.log</ul>
+	</ul>
+	<ul> 2016-12
+	<ul>Flask_web_log2016-12-01.log</ul>
+	</ul>
