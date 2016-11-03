@@ -1,6 +1,7 @@
 # myTest
 #主要用来记录我的CSDN原创文章<http://blog.csdn.net/u010445540>
 此博客包含了以下以及方面：
+0.文章
 1.python
 2.java
 3.angular js
