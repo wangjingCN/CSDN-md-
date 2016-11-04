@@ -1,0 +1,5 @@
+*.pyc
+*.exe
+my_db_config/
+ 
+!main.pyc
