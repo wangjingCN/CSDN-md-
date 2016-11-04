@@ -1,3 +1,5 @@
+写的有点乱，只是做了一个总结
+
 #分支操作,这里用test表示新的分支
 
 ##如何新建分支并切换到分支：	
@@ -38,5 +40,19 @@
 	git fetch
 	
 	git checkout origin/master -- path/to/file
-#提交冲突时候的解决办法
-## git pull
+#版本回退的问题
+
+	第一步：git reflog 
+	#查看 commit日志,找到commit id
+	
+	第二部：git reset --hard id
+	#回退到某个版本下
+	
+
+#冲突解决
+##相同分支:
+	首先：git pull
+	然后：git add ,git commit ,git push
+##不同分支
+	首先：git merge branch 
+	然后:git add ,git commit ,git push 	
