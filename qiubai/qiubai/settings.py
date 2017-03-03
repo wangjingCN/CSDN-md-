@@ -15,8 +15,11 @@ SPIDER_MODULES = ['qiubai.spiders']
 NEWSPIDER_MODULE = 'qiubai.spiders'
 
 # ITEM_PIPELINES = {'scrapy.contrib.pipeline.images.ImagesPipeline': 1}
-ITEM_PIPELINES = {'qiubai.pipelines.QiubaiPipeline': 1}
-IMAGES_STORE = '.'
+# ITEM_PIPELINES = {'qiubai.pipelines.QiubaiPipeline': 1}
+# IMAGES_STORE = '.'
+
+
+
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 # USER_AGENT = 'qiubai (+http://www.yourdomain.com)'
 
